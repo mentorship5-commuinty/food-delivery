@@ -1,9 +1,16 @@
 package food_delivery.model;
 
+import java.util.List;
+
+import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Etity
+@Entity
 @Table(name="USER_TYPE")
 public class UserType{
     @Id
@@ -13,5 +20,8 @@ public class UserType{
 
     @Column(name = "USER_TYPE_NAME")
     private String userTypeName;
+
+    @OneToMany(mappedBy ="userType" , fetch = FetchType.LAZY)
+    private List<User> users;
 
 }

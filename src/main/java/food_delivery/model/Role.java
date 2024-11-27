@@ -9,17 +9,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="CART_ITEM")
-public class CartItem{
+@Table(name="ROLE")
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CART_ITEM_ID")
-    private Long cartItemId;
+    @Column(name = "ROLE_ID")
+    private Long id;
 
-    @Column(name = "QUANTITY")
-    private Integer quantity;
-
-    @ManyToOne
-    @JoinColumn(name ="CART_ID")
-    private Cart cart;
+    @Column(name = "NAME")
+    private String name;
 }

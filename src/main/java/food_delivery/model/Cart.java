@@ -1,9 +1,16 @@
 package food_delivery.model;
 
+import java.util.List;
+
+import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Etity
+@Entity
 @Table(name="CART")
 public class Cart{
     @Id

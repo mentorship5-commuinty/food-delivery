@@ -2,5 +2,9 @@ package food_delivery.repository;
 
 import food_delivery.model.UserType;
 
-public class UserTypeRepository extends JpaRepository<UserType, Long>{
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface UserTypeRepository extends JpaRepository<UserType, Long>{
 }

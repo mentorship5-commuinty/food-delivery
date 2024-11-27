@@ -1,8 +1,13 @@
 package food_delivery.model;
 
+import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @AllArgsConstructor
 @NoArgsConstructor
-@Etity
+@Entity
 @Table(name="MENU_ITEM")
 public class MenuItem{
     @Id

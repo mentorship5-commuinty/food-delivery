@@ -1,9 +1,17 @@
 package food_delivery.model;
 
+import java.util.List;
+
+import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Etity
+@Entity
 @Table(name="USER")
 public class User{
     @Id
@@ -14,15 +22,17 @@ public class User{
     @Column(name = "USER_NAME")
     private String userName;
 
-    @NotNull(message = "email field should not be null")
     @Column(name = "USER_EMAIL")
     private String email ;
 
-    @NotNull(message = "mobileNumber field should not be null")
     @Column(name = "USER_MOBILENUMBER")
     private String mobileNumber;
 
     @OneToMany(mappedBy ="user" , fetch = FetchType.LAZY)
     private List<Customer> customers;
+
+    @ManyToOne
+    @JoinColumn(name ="USER_TYPE_ID")
+    private UserType userType;
 
 }
