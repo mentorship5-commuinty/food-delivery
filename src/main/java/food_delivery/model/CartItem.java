@@ -1,7 +1,11 @@
 package food_delivery.model;
 
+import java.time.Instant;
+import java.util.List;
+
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 @Table(name="CART_ITEM")
 public class CartItem{
     @Id
@@ -22,4 +27,15 @@ public class CartItem{
     @ManyToOne
     @JoinColumn(name ="CART_ID")
     private Cart cart;
+    
+    @OneToMany(mappedBy= "cartItem" , cascade = CascadeType.ALL)
+	private List<MenuItem> menuItem;
+    
+    
+    public static CartItem createCartItem(Customer customer) {
+    	return CartItem.builder()
+    			
+    			.build();
+    	
+    }
 }

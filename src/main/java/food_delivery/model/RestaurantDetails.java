@@ -22,5 +22,8 @@ public class RestaurantDetails{
 
     @OneToOne(mappedBy = "restaurantDetails")
     private Restaurant restaurant;
+    
+    @OneToMany
+    private Address address;
 
 }

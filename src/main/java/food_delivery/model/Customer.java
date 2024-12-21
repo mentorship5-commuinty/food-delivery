@@ -16,16 +16,19 @@ public class Customer{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CUST_ID")
-    private Long id;
+    private Long customerId;
 
-    @OneToMany(mappedBy ="customer" ,  fetch = FetchType.LAZY)
-    private List<Cart> carts;
+    @OneToOne(mappedBy ="customer")
+    private Cart cart;
 
     @ManyToOne
     @JoinColumn(name ="CUST_USER_ID")
     private User user;
 
-    @OneToMany(mappedBy ="customer" ,  fetch = FetchType.LAZY)
+    @OneToMany(mappedBy ="customer" ,cascade = CascadeType.ALL,  fetch = FetchType.LAZY)
     private List<Address> addresses;
+    
+    @OneToMany(mappedBy = "customer" , cascade = CascadeType.ALL)
+    private List<Order> orders;
 
 }
