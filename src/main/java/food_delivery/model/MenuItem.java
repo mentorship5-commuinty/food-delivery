@@ -29,6 +29,8 @@ public class MenuItem{
 
     @Column(name = "PRICE")
     private Float price;
+    
+    private int quantity;
 
     @ManyToOne
     @JoinColumn(name ="MENU_ID")
@@ -41,6 +43,8 @@ public class MenuItem{
     @ManyToOne
     @JoinColumn(name ="CARtITEM_ID")
     private CartItem cartItem;
+    
+    
     
     private boolean avaliable;
     

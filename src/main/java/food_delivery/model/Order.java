@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -33,12 +35,14 @@ public class Order {
     private Long orderId;
     
     private Long totalAmount ;
-    
-    private String orderStatus;
-    
+        
     private int totalItem ;
     
     private BigDecimal totalPrice;
+    
+    @ManyToOne
+    @Column(name = "ORDER_STATUS")
+    private OrderStatus orderStatus;
     
     @ColumnDefault("CURRENT_TMESTAMP")
     @Column(name = "CREATED_AT")
@@ -59,6 +63,8 @@ public class Order {
     @OneToMany(mappedBy="order")
     private List<OrderItem> items;
     
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderHistory> orderHistories;
     
 }
 

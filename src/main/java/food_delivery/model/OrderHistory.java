@@ -1,8 +1,8 @@
 package food_delivery.model;
 
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.List;
+
+
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,9 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,23 +21,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name="ORDER_ITEM")
-public class OrderItem {
+public class OrderHistory {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ORDERITEM_ID")
-    private Long orderItemId;
+    @Column(name = "ORDERHISTORY_ID")
+    private Long orderHistoryId;
 	
-	private int quantity;
-	
-	private BigDecimal totalPrice;
-	
-	@ManyToOne
-	@JoinColumn(name="ORDER_ID")
-	private Order order;
-	
-	@OneToMany(mappedBy= "order")
-	private List<MenuItem> menuItem;
-	
-	
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
+
+    private String status; //  "Created", "In Progress", "Completed"
+
+    private String comments; 
+
+    @Column(nullable = false)
+    private LocalDateTime timestamp;
+
 }
