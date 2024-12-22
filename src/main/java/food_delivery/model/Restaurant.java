@@ -1,35 +1,32 @@
 package food_delivery.model;
 
-
-import java.util.List;
-
-import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+import javax.persistence.*;
+import java.io.Serializable;
+
 @Entity
-@Table(name="RESTAURANT")
-public class Restaurant{
+@Table(name = "restaurant")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Restaurant implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "RESTAURANT_ID")
-    private Long restaurantId;
+    @Column(name = "restaurant_id")
+    private Long id;
 
-    @Column(name = "RESTAURANT_NAME")
-    private String restaurantName;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "REST_DETAILS_ID" , referencedColumnName = "restDetailsId")
-    private RestaurantDetails restaurantDetails;
+    @Column(name = "address")
+    private String address;
 
-    @OneToMany(mappedBy ="restaurant" , fetch = FetchType.LAZY)
-    private List<Menu> menus;
-    
-    @OneToMany(mappedBy = "restaurant" , cascade = CascadeType.ALL)
-    private List<Order> orders;
+    @Column(name = "phone_number", length = 15)
+    private String phoneNumber;
+
 
 }

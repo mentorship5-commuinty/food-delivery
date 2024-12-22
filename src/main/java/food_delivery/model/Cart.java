@@ -1,13 +1,13 @@
 package food_delivery.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.List;
-
+import java.time.LocalDateTime;
+import java.util.Set;
 import javax.persistence.*;
 
-import org.hibernate.annotations.ColumnDefault;
-
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,33 +18,35 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Builder
-@Table(name="CART")
-public class Cart{
+@Table(name="cart")
+public class Cart implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CART_ID")
-    private Long cartId;
-  
-    @OneToOne
-    @JoinColumn(name="CART_CUST_ID" , referencedColumnName	 ="customerId")
+    @Column(name = "cart_id")
+    private Long id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", unique = true)
     private Customer customer;
 
-    @OneToMany(mappedBy ="cart" , fetch = FetchType.LAZY)
-    private List<CartItem> cartItems;
-    
-    private BigDecimal total;
-    
-    @ColumnDefault("CURRENT_TMESTAMP")
-    @Column(name = "CREATED_AT")
-    private Instant createdAt;
-    
-    @ColumnDefault("CURRENT_TMESTAMP")
-    @Column(name = "UPDATED_AT")
-    private Instant updateAt;
-    
-    public static Cart createCart(Customer customer) {
-    	return Cart.builder()
-    			.customer(customer)
-    			.build();	
-    }
+    @Column(name = "creation_date", nullable = false)
+    @CreationTimestamp
+    private LocalDateTime creationDate;
+
+    @Column(name = "last_updated")
+    @UpdateTimestamp
+    private LocalDateTime lastUpdated;
+
+    @Column(name = "total_amount", nullable = false)
+    private BigDecimal totalAmount;
+
+    @Column(name = "notes")
+    private String notes;
+
+    @Column(name = "is_Locked")
+    private Boolean isLocked;
+
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    private Set<CartItem> items;
 }

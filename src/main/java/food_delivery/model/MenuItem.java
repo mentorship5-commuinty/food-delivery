@@ -1,5 +1,7 @@
 package food_delivery.model;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 
 import javax.persistence.*;
@@ -14,43 +16,27 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="MENU_ITEM")
-public class MenuItem{
+@Table(name="menu_item")
+public class MenuItem implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MENU_ITEM_ID")
-    private Long menuItemId;
+    @Column(name = "item_id")
+    private Long id;
 
-    @Column(name = "ITEM_NAME")
-    private String ItemName;
-    
-    @Column(name = "DESCRIPTION")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "menu_id")
+    private Menu menu;
+
+    @Column(name = "item_name", nullable = false)
+    private String itemName;
+
+    @Column(name = "price", nullable = false)
+    private BigDecimal price;
+
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "PRICE")
-    private Float price;
-    
-    private int quantity;
-
-    @ManyToOne
-    @JoinColumn(name ="MENU_ID")
-    private Menu menu;
-    
-    @ManyToOne
-    @JoinColumn(name ="ORDER_ID")
-    private Order order;
-    
-    @ManyToOne
-    @JoinColumn(name ="CARtITEM_ID")
-    private CartItem cartItem;
-    
-    
-    
-    private boolean avaliable;
-    
-    
-    //@ManyToOne
-   // private Category category;
-    
-
+    @Column(name = "quantity")
+    private int quantity ;
 }

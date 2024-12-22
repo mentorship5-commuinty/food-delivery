@@ -1,71 +1,46 @@
 package food_delivery.model;
 
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.ColumnDefault;
+import java.time.LocalDateTime;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Table(name="ORDER")
+@Table(name = "\"order\"")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Order {
-	
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ORDER_ID")
-    private Long orderId;
-    
-    private Long totalAmount ;
-        
-    private int totalItem ;
-    
-    private BigDecimal totalPrice;
-    
-    @ManyToOne
-    @Column(name = "ORDER_STATUS")
-    private OrderStatus orderStatus;
-    
-    @ColumnDefault("CURRENT_TMESTAMP")
-    @Column(name = "CREATED_AT")
-    private Instant createdAt;
-    
-    @ManyToOne
-    @JoinColumn(name="CUSTOMER_ID")
+    @Column(name = "order_id")
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
-    
-    @ManyToOne
-    @JoinColumn(name="RESTAURANT_ID")
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
-    
-    @ManyToOne
-    @Column(name = "ADDRESS")
-    private Address deliveryAddress;
-    
-    @OneToMany(mappedBy="order")
-    private List<OrderItem> items;
-    
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderHistory> orderHistories;
-    
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_status_id", nullable = false)
+    private OrderStatus orderStatus;
+
+
+    @Column(name = "order_date", nullable = false)
+    private LocalDateTime orderDate;
+
+    @Column(name = "total_amount", nullable = false)
+    private BigDecimal totalAmount;
+
+    @Column(name = "notes")
+    private String notes;
+
+
 }
-
-

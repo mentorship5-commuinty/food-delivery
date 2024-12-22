@@ -1,5 +1,6 @@
 package food_delivery.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -18,14 +19,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="ORDER_STATUS")
-public class OrderStatus {
-	
-	@Id
+@Table(name="order_status")
+public class OrderStatus implements Serializable {
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ORDER_STATUS_ID")
-    private Long orderStatusId;
-	
-	private String orderStatus;
+    @Column(name = "order_status_id")
+    private Long id;
+
+    @Column(name = "status_name", nullable = false)
+    private String statusName;
+
+    @Column(name = "description")
+    private String description;
 
 }

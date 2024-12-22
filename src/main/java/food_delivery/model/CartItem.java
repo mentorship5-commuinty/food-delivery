@@ -1,7 +1,8 @@
 package food_delivery.model;
 
-import java.time.Instant;
-import java.util.List;
+import java.io.Serializable;
+import java.math.BigDecimal;
+
 
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,28 +15,26 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Builder
-@Table(name="CART_ITEM")
-public class CartItem{
+@Table(name="cart_item")
+public class CartItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CART_ITEM_ID")
-    private Long cartItemId;
+    @Column(name = "cart_item_id")
+    private Long id;
 
-    @Column(name = "QUANTITY")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "menu_item_id")
+    private MenuItem menuItem;
+
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @ManyToOne
-    @JoinColumn(name ="CART_ID")
-    private Cart cart;
-    
-    @OneToMany(mappedBy= "cartItem" , cascade = CascadeType.ALL)
-	private List<MenuItem> menuItem;
-    
-    
-    public static CartItem createCartItem(Customer customer) {
-    	return CartItem.builder()
-    			
-    			.build();
-    	
-    }
+    @Column(name = "price", nullable = false)
+    private BigDecimal price;
+
+
 }
