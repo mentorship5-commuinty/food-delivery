@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="ORDER")
+@Table(name="ORDER_table")
 public class Order {
 	
     @Id
@@ -40,11 +40,11 @@ public class Order {
     
     private BigDecimal totalPrice;
     
-    @ManyToOne
+    @OneToMany(mappedBy = "orderStatus")
     @Column(name = "ORDER_STATUS")
-    private OrderStatus orderStatus;
+    private List<OrderStatus> orderStatus;
     
-    @ColumnDefault("CURRENT_TMESTAMP")
+    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "CREATED_AT")
     private Instant createdAt;
     
@@ -57,7 +57,7 @@ public class Order {
     private Restaurant restaurant;
     
     @ManyToOne
-    @Column(name = "ADDRESS")
+    @JoinColumn(name = "ADDRESS")
     private Address deliveryAddress;
     
     @OneToMany(mappedBy="order")

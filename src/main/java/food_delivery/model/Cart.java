@@ -26,7 +26,7 @@ public class Cart{
     private Long cartId;
   
     @OneToOne
-    @JoinColumn(name="CART_CUST_ID" , referencedColumnName	 ="customerId")
+    @JoinColumn(name="CART_CUST_ID" , referencedColumnName="CUST_ID")
     private Customer customer;
 
     @OneToMany(mappedBy ="cart" , fetch = FetchType.LAZY)

@@ -23,7 +23,7 @@ public class Restaurant{
     private String restaurantName;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "REST_DETAILS_ID" , referencedColumnName = "restDetailsId")
+    @JoinColumn(name = "REST_DETAILS_ID" , referencedColumnName = "REST_DETAILS_ID")
     private RestaurantDetails restaurantDetails;
 
     @OneToMany(mappedBy ="restaurant" , fetch = FetchType.LAZY)
