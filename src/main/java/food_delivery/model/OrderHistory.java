@@ -1,9 +1,10 @@
 package food_delivery.model;
-import javax.persistence.*;
 
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -21,6 +22,8 @@ public class OrderHistory {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
+    @Column(nullable = false)
+    private LocalDateTime timestamp;
 
     @OneToOne
     @JoinColumn(name="restaurant_id" , nullable = false)
