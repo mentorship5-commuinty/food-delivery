@@ -63,6 +63,7 @@ public class CartService {
 		
 		Customer customer = customerRepository.findById(CustomerId).orElseThrow(()-> new RuntimeException("Customer not found"));
 	    Cart cart = customer.getCart();
+		if(cart == null) throw new RuntimeException("customer has no cart");
 		return cart;	
 	}
 	
@@ -70,7 +71,11 @@ public class CartService {
 		
 		return cartRepository.save(newcart);	
 	}
-	
-	
 
+	public void clearCart(Long cartId) {
+		cartRepository.deleteById(cartId);
+	}
+	public void clearCart(Cart cart) {
+		cartRepository.delete(cart);
+	}
 }
