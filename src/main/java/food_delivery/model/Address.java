@@ -1,13 +1,10 @@
 package food_delivery.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.Null;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 
 

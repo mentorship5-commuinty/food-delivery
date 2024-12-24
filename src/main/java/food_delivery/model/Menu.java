@@ -1,8 +1,6 @@
 package food_delivery.model;
 
 import java.io.Serializable;
-import java.util.List;
-
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

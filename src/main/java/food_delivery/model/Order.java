@@ -1,46 +1,66 @@
 package food_delivery.model;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import javax.persistence.*;
-
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "\"order\"")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
-    private Long id;
+    private Long orderId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id", nullable = false)
-    private Restaurant restaurant;
+    private int totalItemCount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_status_id", nullable = false)
+    private int totalItemQuantity;
+
+    private BigDecimal totalPrice;
+    
+    @ManyToOne
+    @JoinColumn(name = "order_status")
     private OrderStatus orderStatus;
 
 
-    @Column(name = "order_date", nullable = false)
-    private LocalDateTime orderDate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private Restaurant restaurant;
+    
+    @ManyToOne
+    @JoinColumn(name = "address")
+    private Address deliveryAddress;
 
-    @Column(name = "total_amount", nullable = false)
-    private BigDecimal totalAmount;
+    @OneToMany(mappedBy="order" , cascade = CascadeType.ALL)
+    private List<OrderItem> items = new ArrayList<>();
+    
+
 
     @Column(name = "notes")
     private String notes;
+
+    public void addItems(OrderItem orderItem)
+    {
+        items.add(orderItem);
+        orderItem.setOrder(this);
+    }
+
+    public void removeItem(OrderItem orderItem) {
+        items.remove(orderItem);
+        orderItem.setOrder(null);
+    }
 
 
 }

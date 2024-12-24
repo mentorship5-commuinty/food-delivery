@@ -1,16 +1,12 @@
 package food_delivery.model;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.Instant;
-
 import javax.persistence.*;
-
-import org.hibernate.annotations.ColumnDefault;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.io.Serializable;
+import java.math.BigDecimal;
+
 
 @Data
 @AllArgsConstructor
@@ -22,7 +18,7 @@ public class MenuItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
-    private Long id;
+    private Long menuItemId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id")
@@ -38,5 +34,16 @@ public class MenuItem implements Serializable {
     private String description;
 
     @Column(name = "quantity")
-    private int quantity ;
+    private int quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "ORDER_ID")
+    private Order order;
+
+    @ManyToOne
+    @JoinColumn(name = "CARtITEM_ID")
+    private CartItem cartItem;
+
+    private boolean available;
+
 }

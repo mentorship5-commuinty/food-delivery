@@ -2,12 +2,11 @@ package food_delivery.model;
 
 import java.io.Serializable;
 import java.time.Instant;
-
 import javax.persistence.*;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 @Data
 @AllArgsConstructor
