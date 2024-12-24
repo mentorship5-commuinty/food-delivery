@@ -2,6 +2,7 @@ package food_delivery.model;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -33,18 +34,19 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ORDER_ID")
     private Long orderId;
-    
-    private Long totalAmount ;
-        
-    private int totalItem ;
+
+
+    private int totalItemCount;
+
+    private int totalItemQuantity;
     
     private BigDecimal totalPrice;
     
     @OneToMany(mappedBy = "orderStatus")
     @Column(name = "ORDER_STATUS")
-    private List<OrderStatus> orderStatus;
+    private List<OrderStatus> orderStatus = new ArrayList<>();;
     
-    @ColumnDefault("CURRENT_TIMESTAMP")
+//    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "CREATED_AT")
     private Instant createdAt;
     
@@ -60,12 +62,22 @@ public class Order {
     @JoinColumn(name = "ADDRESS")
     private Address deliveryAddress;
     
-    @OneToMany(mappedBy="order")
-    private List<OrderItem> items;
+    @OneToMany(mappedBy="order" , cascade = CascadeType.ALL)
+    private List<OrderItem> items = new ArrayList<>();
     
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderHistory> orderHistories;
-    
+    private List<OrderHistory> orderHistories = new ArrayList<>();;
+
+    public void addItems(OrderItem orderItem)
+    {
+        items.add(orderItem);
+        orderItem.setOrder(this);
+    }
+
+    public void removeItem(OrderItem orderItem) {
+        items.remove(orderItem);
+        orderItem.setOrder(null);
+    }
 }
 
 

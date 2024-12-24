@@ -1,13 +1,14 @@
 package food_delivery.model;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
+import lombok.*;
+
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -30,5 +31,18 @@ public class Customer{
     
     @OneToMany(mappedBy = "customer" , cascade = CascadeType.ALL)
     private List<Order> orders;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Customer)) return false;
+        Customer customer = (Customer) o;
+        return Objects.equals(customerId, customer.customerId);
+    }
 
 }

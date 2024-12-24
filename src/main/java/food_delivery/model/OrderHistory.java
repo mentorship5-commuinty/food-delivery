@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="ORDER_ITEM")
+@Table(name="ORDER_HISTORY")
 public class OrderHistory {
 	
 	@Id

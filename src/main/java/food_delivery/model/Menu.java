@@ -1,6 +1,7 @@
 package food_delivery.model;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,4 +26,23 @@ public class Menu{
     @OneToMany(mappedBy ="menu" , fetch = FetchType.LAZY)
     private List<MenuItem> menuItems;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Menu menu = (Menu) o;
+        return Objects.equals(menuId, menu.menuId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(menuId);
+    }
+
+    @Override
+    public String toString() {
+        return "Menu{" +
+                "menuId=" + menuId +
+                '}';
+    }
 }

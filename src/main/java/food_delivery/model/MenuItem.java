@@ -1,14 +1,12 @@
 package food_delivery.model;
 
-import java.time.Instant;
-
 import javax.persistence.*;
-
-import org.hibernate.annotations.ColumnDefault;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
@@ -28,7 +26,7 @@ public class MenuItem{
     private String description;
 
     @Column(name = "PRICE")
-    private Float price;
+    private BigDecimal price;
     
     private int quantity;
 
@@ -36,17 +34,17 @@ public class MenuItem{
     @JoinColumn(name ="MENU_ID")
     private Menu menu;
     
-    @ManyToOne
-    @JoinColumn(name ="ORDER_ID")
-    private Order order;
+//    @ManyToOne
+//    @JoinColumn(name ="ORDER_ID")
+//    private Order order;
     
-    @ManyToOne
-    @JoinColumn(name ="CARtITEM_ID")
-    private CartItem cartItem;
+//    @ManyToOne
+//    @JoinColumn(name ="CARtITEM_ID")
+//    private CartItem cartItem;
     
     
     
-    private boolean avaliable;
+    private boolean available;
     
     
     //@ManyToOne

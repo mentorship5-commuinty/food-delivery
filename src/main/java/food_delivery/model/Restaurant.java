@@ -2,6 +2,7 @@ package food_delivery.model;
 
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,4 +33,24 @@ public class Restaurant{
     @OneToMany(mappedBy = "restaurant" , cascade = CascadeType.ALL)
     private List<Order> orders;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Restaurant that = (Restaurant) o;
+        return Objects.equals(restaurantId, that.restaurantId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(restaurantId);
+    }
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "restaurantId=" + restaurantId +
+                ", restaurantName='" + restaurantName + '\'' +
+                '}';
+    }
 }

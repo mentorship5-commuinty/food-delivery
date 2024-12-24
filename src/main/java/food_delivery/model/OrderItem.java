@@ -4,17 +4,10 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,23 +16,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name="ORDER_ITEM")
+@Builder
 public class OrderItem {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ORDERITEM_ID")
+    @Column(name = "ORDER_ITEM_ID")
     private Long orderItemId;
 	
 	private int quantity;
 	
-	private BigDecimal totalPrice;
+	private BigDecimal price;
 	
 	@ManyToOne
 	@JoinColumn(name="ORDER_ID")
 	private Order order;
 	
-	@OneToMany(mappedBy= "order")
-	private List<MenuItem> menuItem;
+	@OneToOne
+	@JoinColumn(name = "menu_item_id")
+	private MenuItem menuItem;
 	
 	
 }

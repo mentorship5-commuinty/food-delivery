@@ -28,8 +28,9 @@ public class CartItem{
     @JoinColumn(name ="CART_ID")
     private Cart cart;
     
-    @OneToMany(mappedBy= "cartItem" , cascade = CascadeType.ALL)
-	private List<MenuItem> menuItem;
+    @OneToOne
+    @JoinColumn(name ="MENU_ITEM_ID")
+	private MenuItem menuItem;
     
     
     public static CartItem createCartItem(Customer customer) {
