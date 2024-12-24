@@ -1,23 +1,9 @@
 package food_delivery.model;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.ColumnDefault;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,46 +12,55 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="ORDER")
+@Table(name = "\"order\"")
 public class Order {
-	
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ORDER_ID")
+    @Column(name = "order_id")
     private Long orderId;
-    
-    private Long totalAmount ;
-        
-    private int totalItem ;
-    
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
+
+    private int totalItemCount;
+
+    private int totalItemQuantity;
+
     private BigDecimal totalPrice;
     
     @ManyToOne
-    @Column(name = "ORDER_STATUS")
+    @JoinColumn(name = "order_status")
     private OrderStatus orderStatus;
-    
-    @ColumnDefault("CURRENT_TMESTAMP")
-    @Column(name = "CREATED_AT")
-    private Instant createdAt;
-    
-    @ManyToOne
-    @JoinColumn(name="CUSTOMER_ID")
-    private Customer customer;
-    
-    @ManyToOne
-    @JoinColumn(name="RESTAURANT_ID")
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
     
     @ManyToOne
-    @Column(name = "ADDRESS")
+    @JoinColumn(name = "address")
     private Address deliveryAddress;
+
+    @OneToMany(mappedBy="order" , cascade = CascadeType.ALL)
+    private List<OrderItem> items = new ArrayList<>();
     
-    @OneToMany(mappedBy="order")
-    private List<OrderItem> items;
-    
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderHistory> orderHistories;
-    
+
+
+    @Column(name = "notes")
+    private String notes;
+
+    public void addItems(OrderItem orderItem)
+    {
+        items.add(orderItem);
+        orderItem.setOrder(this);
+    }
+
+    public void removeItem(OrderItem orderItem) {
+        items.remove(orderItem);
+        orderItem.setOrder(null);
+    }
+
+
 }
-
-

@@ -4,18 +4,20 @@ import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.io.Serializable;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Table(name="ROLE")
-public class Role {
+@Table(name = "role")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Role implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ROLE_ID")
+    @Column(name = "role_id")
     private Long id;
 
-    @Column(name = "NAME")
-    private String name;
+    @Column(name = "role_name", nullable = false, unique = true)
+    private String roleName;
 }

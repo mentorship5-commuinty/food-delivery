@@ -2,9 +2,7 @@ package food_delivery.service;
 
 
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import food_delivery.dto.CartDTO;
 import food_delivery.dto.CartItemDTO;
 import food_delivery.dto.CartItemRequestDTO;
@@ -30,7 +28,7 @@ public class CartService {
 		
 		Cart cart = new Cart();
 		cart.setCustomer(customer);
-		cart.setCartItems(null);
+		cart.setItems(null);
 		Cart newcart = cartRepository.save(cart);
 		
 		return cartMapper.toDTO(newcart) ;	
@@ -43,34 +41,35 @@ public class CartService {
 		Cart cart = getCustomerCart(cartItemRequest.getCustomerId());
 		
 		if(cart == null) {
-			Cart newCart = Cart.createCart(customer) ;
+			Cart newCart = new Cart();
+			cart.setCustomer(customer);
 			cart = saveCart(newCart);
-			
 		}
 		
-		return CartItemMapper.toDtos(cart.getCartItems());
-		
-		
+		return CartItemMapper.toDtos(cart.getItems());
 	}
 	
 	public List<CartItemDTO> viewCart(Long customerId) {
 		Cart cart = getCustomerCart(customerId);
-		return CartItemMapper.toDtos(cart.getCartItems());	
+		return CartItemMapper.toDtos(cart.getItems());
 	}
 	
 	
 	public Cart getCustomerCart(Long CustomerId) {
-		
 		Customer customer = customerRepository.findById(CustomerId).orElseThrow(()-> new RuntimeException("Customer not found"));
 	    Cart cart = customer.getCart();
+		if(cart == null) throw new RuntimeException("customer has no cart");
 		return cart;	
 	}
 	
 	public Cart saveCart(Cart newcart) {
-		
 		return cartRepository.save(newcart);	
 	}
-	
-	
 
+	public void clearCart(Long cartId) {
+		cartRepository.deleteById(cartId);
+	}
+	public void clearCart(Cart cart) {
+		cartRepository.delete(cart);
+	}
 }

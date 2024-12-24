@@ -14,16 +14,21 @@ import lombok.NoArgsConstructor;
 public class RestaurantDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "REST_DETAILS_ID")
-    private Long restDetailsId;
+    @Column(name = "restaurant_details_id")
+    private Long Id;
 
-    @Column(name = "REST_DETAILS_DESC")
-    private String restDetailsDESC;
-
-    @OneToOne(mappedBy = "restaurantDetails")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
-    
-   // @OneToMany
-   // private Address address;
+
+    @Column(name = "description")
+    private String description;
+
+    @OneToOne
+    @JoinColumn(name = "owner_id")
+    private User user;
+
+    @Column(name = "capacity")
+    private Integer capacity;
 
 }

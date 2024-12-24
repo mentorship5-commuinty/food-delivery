@@ -1,36 +1,37 @@
 package food_delivery.model;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="ORDER_TRACKING")
-public class OrderTracking {
-	
-	@Id
+@Table(name = "order_tracking")
+public class OrderTracking implements Serializable {
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ORDER_ID")
-    private Long orderId;
-	
-	private String currentLocation;
-	
-	private LocalDateTime estimatedDeliveryTime;
-	
-	
+    @Column(name = "tracking_id")
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_status_id", nullable = false)
+    private OrderStatus orderStatus;
+
+    @Column(name = "update_time", nullable = false)
+    private LocalDateTime updateTime;
+
+    @Column(name = "currentLocation")
+    private String currentLocation;
+
 }
