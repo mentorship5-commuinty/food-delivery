@@ -1,5 +1,5 @@
 package food_delivery.response;
-import food_delivery.enums.OrderStatus;
+import food_delivery.model.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderStatusResponse {
-    private Integer orderId;
+    private Long orderId;
     private OrderStatus status;
 }
