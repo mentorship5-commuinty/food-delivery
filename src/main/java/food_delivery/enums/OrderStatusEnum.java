@@ -1,5 +1,7 @@
 package food_delivery.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public enum OrderStatusEnum {
     Pending(1L),
     Confirmed(2L),
@@ -15,5 +17,14 @@ public enum OrderStatusEnum {
 
     public Long getCode() {
         return code;
+    }
+    @JsonCreator
+    public static OrderStatusEnum fromString(String status) {
+        for (OrderStatusEnum statusEnum : OrderStatusEnum.values()) {
+            if (statusEnum.name().equalsIgnoreCase(status)) {
+                return statusEnum;
+            }
+        }
+        throw new IllegalArgumentException("Unknown status: " + status);
     }
 }

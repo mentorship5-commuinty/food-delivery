@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ApplicationErrorEnum {
     ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "Address not found."),
+    CART_IS_LOCKED(HttpStatus.FORBIDDEN, "Cart is Locked"),
     CART_IS_EMPTY(HttpStatus.NOT_FOUND, "Cart is empty."),
     CART_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "Cart Item not found."),
     CART_NOT_FOUND(HttpStatus.NOT_FOUND, "Cart not found."),
@@ -14,6 +15,7 @@ public enum ApplicationErrorEnum {
     INVALID_CART_ITEM_ID(HttpStatus.BAD_REQUEST, "Invalid cart item ID."),
     INVALID_CUSTOMER_ID(HttpStatus.BAD_REQUEST, "Invalid customer ID."),
     MENU_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "Menu Item not found."),
+    MENU_ITEM_IS_OUT_OF_STOCK(HttpStatus.FORBIDDEN , "Out of Stock"),
     NEGATIVE_QUANTITY(HttpStatus.BAD_REQUEST, "Added Quantity shouldn't be negative."),
     PAYMENT_METHOD_NOT_FOUND(HttpStatus.NOT_FOUND, "Payment Method not found."),
     USER_ALREADY_EXIST(HttpStatus.BAD_REQUEST,"User Already Exist Are you Want To Login"),

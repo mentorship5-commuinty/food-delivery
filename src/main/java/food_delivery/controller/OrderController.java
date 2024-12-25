@@ -1,6 +1,7 @@
 package food_delivery.controller;
 
 
+import food_delivery.dto.OrderUpdateStatusDto;
 import food_delivery.enums.OrderStatusEnum;
 import food_delivery.request.OrderRequest;
 import food_delivery.response.OrderResponse;
@@ -27,36 +28,34 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping("/{orderId}")
+    public ResponseEntity<?> createOrder(@RequestBody OrderRequest orderRequest){
+        OrderResponse orderResponse = new OrderResponse();
+        return ResponseEntity.ok(orderResponse);
+    }
 
+    @GetMapping("/{orderId}")
     public ResponseEntity<OrderResponse> getOrder(@PathVariable Long orderId) {
 
         OrderResponse orderResponse = orderService.getOrder(orderId);
-        System.out.println("OrderResponse" + orderResponse);
         return ResponseEntity.ok(orderResponse);
     }
 
 
-    @DeleteMapping("/cancel/{orderId}")
-
-    public ResponseEntity<OrderStatusResponse> cancelOrder(@PathVariable Long orderId) {
+    @PutMapping("/cancel/{orderId}")
+    public ResponseEntity<OrderStatusResponse> cancelOrder(@PathVariable Integer orderId) {
         // a method to call the service to cancel the order
-        return ResponseEntity.ok(orderService.cancel(orderId));
+        return ResponseEntity.ok(orderService.cancel(Long.valueOf(orderId)));
     }
 
     @GetMapping("/status/{orderId}")
 
     public ResponseEntity<OrderStatusResponse> getOrderStatus(@PathVariable Long orderId) {
-        // a method to call the service to get the status
-
-        //return a fake status
         return ResponseEntity.ok(orderService.getStatus(orderId));
     }
 
-    @PutMapping("/status")
-    public ResponseEntity<OrderStatusResponse> updateOrderStatus(@RequestParam Long orderId , @RequestBody OrderStatusEnum orderStatusId) {
-        // a method to call the service to update the status
-        return ResponseEntity.ok(orderService.updateStatus(orderId , orderStatusId));
+    @PutMapping("/status/{orderId}")
+    public ResponseEntity<OrderStatusResponse> updateOrderStatus(@PathVariable Long orderId , @RequestBody OrderUpdateStatusDto orderUpdateStatusDto) {
+        return ResponseEntity.ok(orderService.updateStatus(orderId , Long.valueOf(orderUpdateStatusDto.getOrderStatusId())));
     }
 
 }
