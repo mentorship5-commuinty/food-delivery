@@ -1,12 +1,15 @@
 package food_delivery.service;
 
+
 import food_delivery.model.*;
+import food_delivery.repository.OrderHistoryRepository;
 import food_delivery.repository.OrderRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -19,6 +22,8 @@ public class OrderService {
     private final CustomerService customerService;
     private final CartService cartService;
     private final MenuItemService menuItemService;
+    private final OrderHistoryRepository orderHistoryRepository;
+    
 
     @Transactional
     public Order createOrder(Long customerId , Long addressId) {
@@ -82,6 +87,20 @@ public class OrderService {
         return order;
     }
 
+    public Order comleteOrder(Long orderId) {
+		
+		Order order= orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("order not found"));
+		
+		OrderStatus orderStatus=order.getOrderStatus();
+		orderStatus.setStatusName("completed");
+		
+		//save OrderHistory
+		OrderHistory orderHistory =new OrderHistory();
+		orderHistory.setOrder(order);
+		orderHistoryRepository.save(orderHistory);
+		return order;
+	}
+    
     private void transferCartToOrder(Cart cart , Order order) {
 
         List<CartItem> itemList = cart.getItems();
