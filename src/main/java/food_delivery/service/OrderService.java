@@ -87,6 +87,16 @@ public class OrderService {
         return order;
     }
 
+    public List<Order> getOrderHistoryForCustomer(Long customerId) {
+    	
+        return orderRepository.findByCustomerId(customerId);
+    }
+
+    public List<Order> getOrderHistoryForRestaurant(Long restaurantId) {
+        return orderRepository.findByRestaurantId(restaurantId);
+    }
+    
+    
     public Order comleteOrder(Long orderId) {
 		
 		Order order= orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("order not found"));
