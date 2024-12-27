@@ -29,7 +29,11 @@ public enum ApplicationErrorEnum {
     UNSUPPORTED_EMAIL_PROVIDER(HttpStatus.UNAUTHORIZED,"Unsupported Email Provider" ),
     TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED,"Token Not Found." ),
     RESTAURANT_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "RestaurantCategory not found."),
-    RESTAURANT_NOT_FOUND(HttpStatus.NOT_FOUND, "Restaurant not found.");
+    RESTAURANT_NOT_FOUND(HttpStatus.NOT_FOUND, "Restaurant not found."),
+    //Cancel order
+    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND,"Order not found"),
+    CANCELED_STATUS_NOT_FOUND(HttpStatus.NOT_FOUND,"Canceled status not found");
+
     private final HttpStatus status;
     private final String message;
 
