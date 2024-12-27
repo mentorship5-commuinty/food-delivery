@@ -19,7 +19,7 @@ public class Restaurant implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "restaurant_id")
-    private Long restaurantId;
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;

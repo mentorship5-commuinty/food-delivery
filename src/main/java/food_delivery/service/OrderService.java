@@ -1,8 +1,10 @@
 package food_delivery.service;
 
+
 import food_delivery.exception.ApplicationErrorEnum;
 import food_delivery.exception.BusinessException;
 import food_delivery.model.*;
+import food_delivery.repository.OrderHistoryRepository;
 import food_delivery.repository.OrderRepository;
 import food_delivery.repository.OrderStatusRepository;
 import food_delivery.repository.OrderTrackingRepository;
@@ -24,6 +26,7 @@ public class OrderService {
     private final CustomerService customerService;
     private final CartService cartService;
     private final MenuItemService menuItemService;
+
     private final OrderTrackingRepository orderTrackingRepository;
     private final OrderStatusRepository orderStatusRepository;
 
@@ -89,6 +92,30 @@ public class OrderService {
         return order;
     }
 
+    public List<Order> getOrderHistoryForCustomer(Long customerId) {
+    	
+        return orderRepository.findByCustomerId(customerId);
+    }
+
+    public List<Order> getOrderHistoryForRestaurant(Long restaurantId) {
+        return orderRepository.findByRestaurantId(restaurantId);
+    }
+    
+    
+    public Order comleteOrder(Long orderId) {
+		
+		Order order= orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("order not found"));
+		
+		OrderStatus orderStatus=order.getOrderStatus();
+		orderStatus.setStatusName("completed");
+		
+		//save OrderHistory
+		OrderHistory orderHistory =new OrderHistory();
+		orderHistory.setOrder(order);
+		orderHistoryRepository.save(orderHistory);
+		return order;
+	}
+    
     private void transferCartToOrder(Cart cart , Order order) {
 
         List<CartItem> itemList = cart.getItems();

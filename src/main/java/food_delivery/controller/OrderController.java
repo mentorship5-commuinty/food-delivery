@@ -7,7 +7,6 @@ import food_delivery.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +26,7 @@ public class OrderController {
         Order order = orderService.createOrder(orderRequest.getCustomerId(), orderRequest.getAddressId());
         return ResponseEntity.ok(OrderMapper.toDto(order));
     }
+
 
     //Cancel Order
     @PutMapping("cancel/{orderId}")
