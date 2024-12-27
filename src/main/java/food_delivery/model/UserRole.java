@@ -4,16 +4,25 @@ import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.io.Serializable;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Entity
-@Table(name="USER_ROLE")
-public class UserRole {
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USER_ROLE")
-    private Long userRoleId;
+@Table(name = "user_role")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserRole implements Serializable {
+
+    @EmbeddedId
+    private UserRoleId id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)  // Don't modify the foreign key directly
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id", insertable = false, updatable = false)  // Don't modify the foreign key directly
+    private Role role;
 
 }

@@ -1,28 +1,27 @@
 package food_delivery.model;
 
+import java.io.Serializable;
 import java.util.List;
-
 import javax.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name="CUSTOMER")
-public class Customer{
+public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CUST_ID")
-    private Long customerId;
+    @Column(name = "customer_id")
+    private Long id;
 
     @OneToOne(mappedBy ="customer")
     private Cart cart;
 
-    @ManyToOne
-    @JoinColumn(name ="CUST_USER_ID")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy ="customer" ,cascade = CascadeType.ALL,  fetch = FetchType.LAZY)
@@ -30,5 +29,11 @@ public class Customer{
     
     @OneToMany(mappedBy = "customer" , cascade = CascadeType.ALL)
     private List<Order> orders;
+
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
 
 }

@@ -1,42 +1,32 @@
 package food_delivery.model;
 
-
-
-import java.time.LocalDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="ORDER_ITEM")
+@Table(name="order_history")
 public class OrderHistory {
-	
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ORDERHISTORY_ID")
+    @Column(name = "order_history_id")
     private Long orderHistoryId;
-	
-    @ManyToOne
+
+    @OneToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    private String status; //  "Created", "In Progress", "Completed"
-
-    private String comments; 
-
     @Column(nullable = false)
     private LocalDateTime timestamp;
+
+    @OneToOne
+    @JoinColumn(name="restaurant_id" , nullable = false)
+    private Restaurant restaurant ;
 
 }
