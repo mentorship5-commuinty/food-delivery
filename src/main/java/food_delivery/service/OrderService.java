@@ -1,12 +1,19 @@
 package food_delivery.service;
 
+
+import food_delivery.exception.ApplicationErrorEnum;
+import food_delivery.exception.BusinessException;
 import food_delivery.model.*;
+import food_delivery.repository.OrderHistoryRepository;
 import food_delivery.repository.OrderRepository;
+import food_delivery.repository.OrderStatusRepository;
+import food_delivery.repository.OrderTrackingRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -19,6 +26,9 @@ public class OrderService {
     private final CustomerService customerService;
     private final CartService cartService;
     private final MenuItemService menuItemService;
+
+    private final OrderTrackingRepository orderTrackingRepository;
+    private final OrderStatusRepository orderStatusRepository;
 
     @Transactional
     public Order createOrder(Long customerId , Long addressId) {
@@ -82,6 +92,30 @@ public class OrderService {
         return order;
     }
 
+    public List<Order> getOrderHistoryForCustomer(Long customerId) {
+    	
+        return orderRepository.findByCustomerId(customerId);
+    }
+
+    public List<Order> getOrderHistoryForRestaurant(Long restaurantId) {
+        return orderRepository.findByRestaurantId(restaurantId);
+    }
+    
+    
+    public Order comleteOrder(Long orderId) {
+		
+		Order order= orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("order not found"));
+		
+		OrderStatus orderStatus=order.getOrderStatus();
+		orderStatus.setStatusName("completed");
+		
+		//save OrderHistory
+		OrderHistory orderHistory =new OrderHistory();
+		orderHistory.setOrder(order);
+		orderHistoryRepository.save(orderHistory);
+		return order;
+	}
+    
     private void transferCartToOrder(Cart cart , Order order) {
 
         List<CartItem> itemList = cart.getItems();
@@ -101,5 +135,35 @@ public class OrderService {
 
             order.addItems(orderItem);
         }
+    }
+
+
+    //Cancel Order
+    @Transactional
+    public boolean cancelOrder(Long orderId) {
+        // Retrieve the order from the database
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new BusinessException(ApplicationErrorEnum.ORDER_NOT_FOUND));
+
+        // Check if the order is already canceled or completed or confirmed
+        if (order.getOrderStatus().getOrderStatusId() ==2
+                || order.getOrderStatus().getOrderStatusId() ==3
+                || order.getOrderStatus().getOrderStatusId() ==4) {
+            return false;
+        }
+        else {
+            //Fetch cancel status
+            OrderStatus canceledStatus = orderStatusRepository.findById(3L)
+                    .orElseThrow(() -> new BusinessException(ApplicationErrorEnum.CANCELED_STATUS_NOT_FOUND));
+
+            // Update order status to "Canceled" in the order table
+            order.setOrderStatus(canceledStatus);
+            orderRepository.save(order);
+
+            // Handle order tracking, Insert new order tracking record with new order status "Canceled")
+            OrderTracking orderTracking = new OrderTracking(null,order,canceledStatus,LocalDateTime.now(),"Restaurant");
+            orderTrackingRepository.save(orderTracking);
+        }
+        return true;
     }
 }
