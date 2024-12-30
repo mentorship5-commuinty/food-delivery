@@ -2,20 +2,49 @@ package food_delivery.service.impl;
 
 import food_delivery.exception.ApplicationErrorEnum;
 import food_delivery.exception.BusinessException;
+import food_delivery.model.Address;
 import food_delivery.model.Restaurant;
 import food_delivery.model.RestaurantDetails;
 import food_delivery.repository.RestaurantRepository;
+import food_delivery.request.RestaurantRequest;
+import food_delivery.service.AddressService;
+import food_delivery.service.RestaurantDetailsService;
+import food_delivery.exception.ApplicationErrorEnum;
+import food_delivery.exception.BusinessException;
 import food_delivery.request.UpdateRestaurantRequest;
 import food_delivery.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class RestaurantServiceImpl implements RestaurantService {
 
-    private final RestaurantRepository restaurantRepository;
+	@Autowired
+	private final RestaurantRepository restaurantRepository;
+	@Autowired
+	private final AddressService addressService;
+	@Autowired
+	private final RestaurantDetailsService restaurantDetailsService;
 
+	@Override
+	public void createRestaurant(RestaurantRequest req) {
+
+		Address address =addressService.createAddress(req.getAddress());
+
+		RestaurantDetails restaurantDetails  = restaurantDetailsService.createRestaurantDetails(req);
+
+		Restaurant restaurant = new Restaurant();
+
+		restaurant.setName(req.getName());
+		restaurant.setPhoneNumber(req.getPhoneNumber());
+		restaurant.setAddress(address);
+		restaurant.setRestaurantDetails(restaurantDetails);
+
+		restaurantRepository.save(restaurant);
+	}
 
     @Override
     public void deleteRestaurantById(Long id) {
@@ -40,6 +69,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurant.setRestaurantDetails(restaurantDetails);
 
         restaurantRepository.save(restaurant);
+
 
     }
 }
