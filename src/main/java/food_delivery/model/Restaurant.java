@@ -24,7 +24,7 @@ public class Restaurant implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "rest_Details_id" , referencedColumnName = "restaurant_details_id")
     private RestaurantDetails restaurantDetails;
 
