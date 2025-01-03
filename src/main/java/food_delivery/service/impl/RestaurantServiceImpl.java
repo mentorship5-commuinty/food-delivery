@@ -57,19 +57,33 @@ public class RestaurantServiceImpl implements RestaurantService {
                 ()-> new BusinessException(ApplicationErrorEnum.RESTAURANT_NOT_FOUND)
         );
 
+		Address address = restaurant.getAddress();
+		if(address == null) {
+            address = new Address();
+			address.setRestaurant(restaurant);
+        }
+		address.setCity(updateRestaurantRequest.getAddress().getCity());
+		address.setCountry(updateRestaurantRequest.getAddress().getCountry());
+		address.setPostalCode(updateRestaurantRequest.getAddress().getPostalCode());
+		address.setAddressLine1(updateRestaurantRequest.getAddress().getAddressLine1());
+
         RestaurantDetails restaurantDetails = restaurant.getRestaurantDetails();
+		if(restaurantDetails == null)
+		{
+			restaurantDetails = new RestaurantDetails();
+			restaurantDetails.setRestaurant(restaurant);
+		}
+
+		restaurantDetails.setDescription(updateRestaurantRequest.getRestaurantDetails().getDescription());
+        restaurantDetails.setCapacity(updateRestaurantRequest.getRestaurantDetails().getCapacity());
+
 
         restaurant.setName(updateRestaurantRequest.getName());
-        restaurant.setAddress(updateRestaurantRequest.getAddress());
         restaurant.setPhoneNumber(updateRestaurantRequest.getPhoneNumber());
 
-        restaurantDetails.setDescription(updateRestaurantRequest.getDescription());
-        restaurantDetails.setCapacity(updateRestaurantRequest.getCapacity());
-
         restaurant.setRestaurantDetails(restaurantDetails);
+		restaurant.setAddress(address);
 
         restaurantRepository.save(restaurant);
-
-
-    }
+	}
 }

@@ -1,10 +1,8 @@
 package food_delivery.request;
 
-
+import food_delivery.dto.RestaurantDetailsDTO;
 import lombok.Getter;
-
 import javax.validation.constraints.*;
-
 
 @Getter
 public class UpdateRestaurantRequest {
@@ -16,11 +14,9 @@ public class UpdateRestaurantRequest {
     @NotBlank(message = "name can not be blank")
     private String name;
 
-    private String address;
-
     private String phoneNumber;
 
-    private String description;
+    private RestaurantDetailsDTO restaurantDetails;
 
-    private Integer capacity;
+    private AddressRequest address;
 }
