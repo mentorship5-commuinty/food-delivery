@@ -29,6 +29,7 @@ public class OrderService {
 
     private final OrderTrackingRepository orderTrackingRepository;
     private final OrderStatusRepository orderStatusRepository;
+    private final OrderHistoryRepository orderHistoryRepository;
 
     @Transactional
     public Order createOrder(Long customerId , Long addressId) {
