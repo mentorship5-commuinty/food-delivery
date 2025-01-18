@@ -15,14 +15,14 @@ public class OrderHistory {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_history_id")
-    private Long orderHistoryId;
+    @Column(name = "id")
+    private Long id;
 
     @OneToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @Column(nullable = false)
+    @Column(name = "timestamp", nullable = false)
     private LocalDateTime timestamp;
 
     @OneToOne

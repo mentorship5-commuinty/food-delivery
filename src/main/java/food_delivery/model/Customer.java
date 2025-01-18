@@ -10,25 +10,20 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="CUSTOMER")
+@Table(name="customer")
 public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "customer_id")
+    @Column(name = "id")
     private Long id;
 
-    @OneToOne(mappedBy ="customer")
+    @OneToOne(mappedBy ="customer" , fetch = FetchType.EAGER)
+    @JoinColumn(name = "cart_id")
     private Cart cart;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-    @OneToMany(mappedBy ="customer" ,cascade = CascadeType.ALL,  fetch = FetchType.LAZY)
-    private List<Address> addresses;
-    
-    @OneToMany(mappedBy = "customer" , cascade = CascadeType.ALL)
-    private List<Order> orders;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;

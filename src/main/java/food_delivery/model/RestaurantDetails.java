@@ -10,15 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="RESTAURANT_DETAILS")
+@Table(name="restaurant_details")
 public class RestaurantDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "restaurant_details_id")
+    @Column(name = "id")
     private Long id;
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "restaurantDetails")
-    private Restaurant restaurant;
 
     @Column(name = "description")
     private String description;

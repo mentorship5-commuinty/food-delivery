@@ -26,3 +26,7 @@ public class UserRole implements Serializable {
     private Role role;
 
 }
+
+/**
+ *
+ */

@@ -23,7 +23,7 @@ public class User implements Serializable, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "username", nullable = false, unique = true)
@@ -42,30 +42,13 @@ public class User implements Serializable, UserDetails {
     @Column(name = "registration_date", nullable = false)
     private Instant registrationDate = Instant.now(); // Default to current timestamp
 
-    // Set lastLogin programmatically as well
-    @Column(name = "last_login")
-    private Instant lastLogin;
-
-    @Column(name = "login_type")
-    private Integer loginType;
 
     @Column(name = "is_enabled")
     private Boolean isEnabled;
 
-    @Column(name = "verification_code")
-    private String verificationCode;
-
     @OneToMany(fetch = FetchType.EAGER)
     private List<UserRole> userRoles;
 
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return userRoles
-                .stream()
-                .map(userRole -> new SimpleGrantedAuthority(userRole.getRole().getRoleName()))
-                .collect(Collectors.toList());
-    }
 
     @Override
     public String getPassword() {
@@ -89,7 +72,15 @@ public class User implements Serializable, UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isEnabled;
+        return true;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return userRoles
+                .stream()
+                .map(userRole -> new SimpleGrantedAuthority(userRole.getRole().getRoleName()))
+                .collect(Collectors.toList());
     }
 
 

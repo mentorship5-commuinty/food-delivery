@@ -17,12 +17,8 @@ public class OrderStatus implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_status_id")
-    private Long orderStatusId;
-    
-    @OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "order_id")
-	private List<Order> order;
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "status_name", nullable = false)
     private String statusName;

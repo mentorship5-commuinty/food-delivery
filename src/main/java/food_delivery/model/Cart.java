@@ -21,8 +21,8 @@ public class Cart implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CART_ID")
-    private Long cartId;
+    @Column(name = "id")
+    private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", unique = true)
@@ -44,7 +44,4 @@ public class Cart implements Serializable {
 
     @Column(name = "is_Locked")
     private Boolean isLocked;
-
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-    private List<CartItem> items;
 }
